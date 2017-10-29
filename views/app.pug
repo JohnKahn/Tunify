@@ -150,7 +150,9 @@ html(lang="en")
                 return layer.isLarge;
               }).forEach(function(layer) {
                 layer.layer.addTo(mapView);
-                layer.popup.openPopup();
+                if (!!layer.popup) {
+                  layer.popup.openPopup();
+                }
               });
               
               layers.filter(function(layer) {
@@ -169,6 +171,9 @@ html(lang="en")
                 return !layer.isLarge;
               }).forEach(function(layer) {
                 layer.layer.addTo(mapView);
+                if (!!layer.popup) {
+                  layer.popup.openPopup();
+                }
               });
             }
           }
