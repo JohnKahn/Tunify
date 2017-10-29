@@ -61,55 +61,7 @@
           autoClose: false,
           closeButton: false,
           autoPan: false
-        }).setContent("<img src='https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/challenge_photos/000/429/530/datas/full_width.png' width='100' />")).openPopup();
-
-        var hackDuke = L.polygon([
-          [35.997938, -78.953333],
-          [36.003424, -78.951530],
-          [36.004951, -78.949041],
-          [36.008284, -78.945522],
-          [36.008839, -78.943548],
-          [36.008839, -78.941402],
-          [36.007867, -78.933678],
-          [36.007590, -78.931789],
-          [36.006618, -78.929901],
-          [36.005646, -78.926725],
-          [36.005368, -78.924923],
-          [36.004743, -78.923550],
-          [36.003146, -78.920288],
-          [36.001618, -78.917627],
-          [35.999813, -78.914623],
-          [35.998702, -78.913336],
-          [35.997452, -78.913078],
-          [35.996688, -78.914452],
-          [35.996896, -78.921576],
-          [35.997035, -78.923292],
-          [35.998146, -78.928013],
-          [35.998355, -78.930931],
-          [35.997313, -78.933592],
-          [35.995785, -78.936768],
-          [35.993910, -78.937798],
-          [35.992313, -78.940287],
-          [35.991897, -78.941660],
-          [35.992591, -78.943377],
-          [35.993841, -78.945093],
-          [35.994744, -78.946466],
-          [35.995647, -78.948097],
-          [35.996549, -78.949728],
-          [35.997383, -78.951702]], {
-            color: '#25cf5f',
-            fillColor: '#25cf5f',
-            fillOpacity: 0.5,
-            radius: 500,
-            interactive: false
-          }).addTo(mapView);
-
-        var hackDukePopup = hackDuke.bindPopup(L.popup({
-          closeOnClick: false,
-          autoClose: false,
-          closeButton: false,
-          autoPan: false
-        }).setContent("<img src='https://i.imgur.com/u7RHjWy.png' width='100' />")).openPopup();
+        }).setContent("<a href=\"https://open.spotify.com/user/5834gic9pac7q9ljli15u19lt/playlist/7MLGmJ9hxEPkiWqv9hGtjy\"><img src='https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/challenge_photos/000/429/530/datas/full_width.png' width='100' /></a>")).openPopup();
 
         var utAustin = L.polygon([
           [30.287161, -97.726779],
@@ -167,7 +119,7 @@
           autoClose: false,
           closeButton: false,
           autoPan: false
-        }).setContent("<img src='https://i.imgur.com/vuDGKnv.png' width='100' />")).openPopup();
+        }).setContent("<a href=\"#\"><img src='https://i.imgur.com/vuDGKnv.png' width='100' /></a>")).openPopup();
 
         var zilker = L.polygon([
           [30.267185, -97.761669],
@@ -214,7 +166,7 @@
           autoClose: false,
           closeButton: false,
           autoPan: false
-        }).setContent("<img src='https://i.imgur.com/j7MmDve.png' width='100' />")).openPopup();
+        }).setContent("<a href=\"https://open.spotify.com/user/5834gic9pac7q9ljli15u19lt/playlist/6fxqiCbCSVsIp2LFKaKsFv\"><img src='https://i.imgur.com/j7MmDve.png' width='100' /></a>")).openPopup();
 
         var austin = L.polygon([
           [30.471165, -97.798920],
@@ -246,7 +198,7 @@
           autoClose: false,
           closeButton: false,
           autoPan: false
-        }).setContent("<img src='https://i.imgur.com/FjclSPG.jpg' width='100' />")).openPopup();
+        }).setContent("<a href=\"#\"><img src='https://i.imgur.com/FjclSPG.jpg' width='100' /></a>")).openPopup();
 
         var dallas = L.polygon([
           [32.649782, -96.811523],
@@ -279,7 +231,7 @@
           autoClose: false,
           closeButton: false,
           autoPan: false
-        }).setContent("<img src='https://i.imgur.com/sSyZ1BM.jpg' width='100' />")).openPopup();
+        }).setContent("<a href=\"#\"><img src='https://i.imgur.com/sSyZ1BM.jpg' width='100' /></a>")).openPopup();
 
         mapView.setView([p.coords.latitude, p.coords.longitude], 17);
         mapView.setView([30.279886818182, -97.752675636364], 13);
@@ -287,7 +239,6 @@
         mapView.on('zoomend', function (ev) {
           if (mapView.getZoom() <= 12) {
             hackTX.removeFrom(mapView);
-            hackDuke.removeFrom(mapView);
             utAustin.removeFrom(mapView);
             zilker.removeFrom(mapView);
 
@@ -298,8 +249,6 @@
           } else {
             hackTX.addTo(mapView);
             hackTXPopup.openPopup();
-            hackDuke.addTo(mapView);
-            hackDukePopup.openPopup();
             utAustin.addTo(mapView);
             utAustinPopup.openPopup();
             zilker.addTo(mapView);
