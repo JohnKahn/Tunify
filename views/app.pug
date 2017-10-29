@@ -29,6 +29,7 @@ html(lang="en")
             input#description(type="text" name="name" placeholder="Description")
           button#loginSpotifyButton.greenButton(type="submit") Create Playlist
         p#successMessage
+        a(href="#" onclick="closeModal()") Close
     a#newPlaylistButton.greenButton(href="#") Create a Playlist
     div#mapid
 
@@ -61,6 +62,10 @@ html(lang="en")
 
         return false;
       });
+
+      function closeModal() {
+        $('#modalWrapper').css('display', 'none');
+      }
 
     script.
       document.getElementById('newPlaylistButton').onclick = function() {
