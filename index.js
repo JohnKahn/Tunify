@@ -14,7 +14,7 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
-const Playlist = require('playlist');
+const Playlist = require('./playlist');
 
 mongoose.connect(
   'mongodb://tunify:Qc3PU7zyt8U49K2pVyRS4xD8QM8O1cwFWmM8O76PvIlMiHMifZZMAFbXN5QMp8WdKe5368jd6v7MAdqlxqpG0w==@tunify.documents.azure.com:10255/?ssl=true',
@@ -26,8 +26,8 @@ mongoose.Promise = global.Promise;
 
 const client_id = 'd4787ada2aae418e8719bb5d540c3194'; // Your client id
 const client_secret = '0f05ff110d9e41c281ce2ee71cb23f78'; // Your secret
-// const redirect_uri = 'https://tunify.azurewebsites.net/callback'; // Your redirect uri
-const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+const redirect_uri = 'https://tunify.azurewebsites.net/callback'; // Your redirect uri
+// const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
