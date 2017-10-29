@@ -95,267 +95,81 @@ html(lang="en")
             });
           }, 5000);
 
-          var hackTX = L.polygon(
-            [
-              [30.270873, -97.741767],
-              [30.2699, -97.738302],
-              [30.26712, -97.739332],
-              [30.268084, -97.742797],
-            ],
-            {
-              color: '#25cf5f',
-              fillColor: '#25cf5f',
-              fillOpacity: 0.5,
-              radius: 125,
-              interactive: false,
-            }
-          ).addTo(mapView);
+          var playlists = !{JSON.stringify(playlists)};
+          var layers = [];
 
-          var hackTXPopup = hackTX
-            .bindPopup(
-              L.popup({
+          playlists.forEach(function(list) {
+            if (list.isPoly) {
+              var newLayer = {
+                layer: L.polygon(list.polygon, {
+                  color: '#25cf5f',
+                  fillColor: '#25cf5f',
+                  fillOpacity: 0.5,
+                  interactive: false,
+                }).addTo(mapView),
+                isLarge: list.isLarge,
+              };
+
+              newLayer.popup = newLayer.layer.bindPopup(L.popup({
                 closeOnClick: false,
                 autoClose: false,
                 closeButton: false,
                 autoPan: false,
               }).setContent(
-                '<a target="_BLANK" href="https://open.spotify.com/user/5834gic9pac7q9ljli15u19lt/playlist/7MLGmJ9hxEPkiWqv9hGtjy"><img src=\'https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/challenge_photos/000/429/530/datas/full_width.png\' width=\'100\' /></a>'
-                //- '<a target="_BLANK" href="https://open.spotify.com/user/5834gic9pac7q9ljli15u19lt/playlist/7MLGmJ9hxEPkiWqv9hGtjy"><img src=\'https://i.imgur.com/X5p6XEc.png\' width=\'100\' /></a>'
-              )
-            )
-            .openPopup();
+                `<a target="_BLANK" href="https://open.spotify.com/user/${list.userId}/playlist/${list.spotifyId}"><img src="${list.imageUrl}" width="100" /></a>`
+              )).openPopup();
 
-          var utAustin = L.polygon(
-            [
-              [30.287161, -97.726779],
-              [30.283344, -97.727895],
-              [30.28175, -97.729225],
-              [30.280231, -97.730341],
-              [30.279823, -97.730684],
-              [30.279416, -97.731285],
-              [30.279193, -97.731843],
-              [30.279045, -97.732272],
-              [30.283937, -97.749825],
-              [30.283678, -97.752142],
-              [30.285197, -97.753129],
-              [30.286865, -97.753129],
-              [30.288458, -97.752786],
-              [30.291608, -97.750726],
-              [30.291867, -97.749524],
-              [30.292275, -97.747464],
-              [30.292831, -97.747121],
-              [30.293424, -97.746992],
-              [30.294054, -97.747421],
-              [30.296721, -97.748923],
-              [30.2975, -97.748795],
-              [30.298167, -97.748451],
-              [30.298574, -97.747765],
-              [30.299019, -97.746992],
-              [30.296684, -97.742014],
-              [30.296499, -97.742057],
-              [30.294239, -97.737508],
-              [30.293238, -97.736006],
-              [30.292905, -97.736006],
-              [30.292238, -97.735834],
-              [30.291793, -97.735448],
-              [30.291348, -97.734933],
-              [30.290718, -97.734632],
-              [30.290126, -97.734461],
-              [30.289459, -97.734547],
-              [30.289199, -97.73283],
-              [30.289273, -97.731414],
-              [30.289199, -97.730384],
-              [30.288792, -97.729654],
-              [30.288199, -97.728925],
-              [30.287754, -97.728152],
-              [30.287457, -97.727423],
-            ],
-            {
-              color: '#25cf5f',
-              fillColor: '#25cf5f',
-              fillOpacity: 0.5,
-              radius: 500,
-              interactive: false,
+              layers.push(newLayer);
+            } else {
+              layers.push({
+                layer: L.circle([list.latitude, list.longitude], {
+                  color: '#25cf5f',
+                  fillColor: '#25cf5f',
+                  fillOpacity: 0.5,
+                  radius: list.radius,
+                  interactive: false,
+                }),
+                isLarge: list.isLarge,
+                maxZoom: list.isLarge ? 13 : 100,
+                minZoom: list.isLarge ? 12 : 0,
+              });
             }
-          ).addTo(mapView);
-
-          var utAustinPopup = utAustin
-            .bindPopup(
-              L.popup({
-                closeOnClick: false,
-                autoClose: false,
-                closeButton: false,
-                autoPan: false,
-              }).setContent(
-                '<a target="_BLANK" href="#"><img src=\'https://i.imgur.com/vuDGKnv.png\' width=\'100\' /></a>'
-              )
-            )
-            .openPopup();
-
-          var zilker = L.polygon(
-            [
-              [30.267185, -97.761669],
-              [30.26522, -97.765317],
-              [30.264664, -97.766433],
-              [30.264294, -97.767634],
-              [30.264294, -97.768278],
-              [30.264183, -97.769222],
-              [30.264145, -97.770338],
-              [30.263701, -97.771239],
-              [30.263664, -97.772613],
-              [30.263478, -97.776089],
-              [30.262848, -97.778664],
-              [30.262848, -97.780123],
-              [30.263775, -97.780552],
-              [30.264294, -97.778964],
-              [30.265888, -97.779651],
-              [30.266444, -97.779522],
-              [30.268816, -97.780938],
-              [30.273745, -97.77699],
-              [30.274227, -97.776818],
-              [30.27482, -97.77669],
-              [30.275154, -97.77669],
-              [30.275969, -97.775874],
-              [30.27482, -97.774458],
-              [30.273634, -97.772269],
-              [30.271781, -97.770381],
-              [30.271077, -97.769866],
-              [30.270521, -97.769351],
-              [30.269965, -97.768321],
-              [30.26952, -97.766733],
-              [30.268927, -97.765231],
-              [30.268149, -97.763171],
-            ],
-            {
-              color: '#25cf5f',
-              fillColor: '#25cf5f',
-              fillOpacity: 0.5,
-              radius: 500,
-              interactive: false,
-            }
-          ).addTo(mapView);
-
-          var zilkerPopup = zilker
-            .bindPopup(
-              L.popup({
-                closeOnClick: false,
-                autoClose: false,
-                closeButton: false,
-                autoPan: false,
-              }).setContent(
-                '<a target="_BLANK" href="https://open.spotify.com/user/5834gic9pac7q9ljli15u19lt/playlist/6fxqiCbCSVsIp2LFKaKsFv"><img src=\'https://i.imgur.com/j7MmDve.png\' width=\'100\' /></a>'
-              )
-            )
-            .openPopup();
-
-          var austin = L.polygon(
-            [
-              [30.471165, -97.79892],
-              [30.473532, -97.601166],
-              [30.397753, -97.580566],
-              [30.346806, -97.595673],
-              [30.302946, -97.5737],
-              [30.237713, -97.620392],
-              [30.18787, -97.625885],
-              [30.139189, -97.66983],
-              [30.114246, -97.667084],
-              [30.088108, -97.69455],
-              [30.085731, -97.738495],
-              [30.117809, -97.800293],
-              [30.212795, -97.753601],
-              [30.244832, -97.80304],
-              [30.315988, -97.820892],
-              [30.469981, -97.804413],
-            ],
-            {
-              color: '#25cf5f',
-              fillColor: '#25cf5f',
-              fillOpacity: 0.5,
-              radius: 500,
-              interactive: false,
-            }
-          ).addTo(mapView);
-
-          var austinPopup = austin
-            .bindPopup(
-              L.popup({
-                closeOnClick: false,
-                autoClose: false,
-                closeButton: false,
-                autoPan: false,
-              }).setContent(
-                '<a target="_BLANK" href="#"><img src=\'https://i.imgur.com/FjclSPG.jpg\' width=\'100\' /></a>'
-              )
-            )
-            .openPopup();
-
-          var dallas = L.polygon(
-            [
-              [32.649782, -96.811523],
-              [32.69371, -96.642609],
-              [32.716822, -96.620636],
-              [32.833443, -96.634369],
-              [32.918791, -96.757965],
-              [32.922249, -96.823883],
-              [32.901497, -96.896667],
-              [32.911874, -96.947479],
-              [32.894579, -96.969452],
-              [32.849596, -97.017517],
-              [32.791892, -97.016144],
-              [32.769955, -97.024384],
-              [32.743392, -97.01889],
-              [32.677529, -97.01889],
-              [32.676373, -96.946106],
-              [32.657876, -96.878815],
-              [32.649782, -96.81427],
-            ],
-            {
-              color: '#25cf5f',
-              fillColor: '#25cf5f',
-              fillOpacity: 0.5,
-              radius: 500,
-              interactive: false,
-            }
-          ).addTo(mapView);
-
-          var dallasPopup = dallas
-            .bindPopup(
-              L.popup({
-                closeOnClick: false,
-                autoClose: false,
-                closeButton: false,
-                autoPan: false,
-              }).setContent(
-                '<a target="_BLANK" href="#"><img src=\'https://i.imgur.com/sSyZ1BM.jpg\' width=\'100\' /></a>'
-              )
-            )
-            .openPopup();
+          });
 
           mapView.setView([p.coords.latitude, p.coords.longitude], 17);
           mapView.setView([30.279886818182, -97.752675636364], 13);
-
-          mapView.on('zoomend', function(ev) {
+          
+          function onZoom(ev) {
             if (mapView.getZoom() <= 12) {
-              hackTX.removeFrom(mapView);
-              utAustin.removeFrom(mapView);
-              zilker.removeFrom(mapView);
-
-              austin.addTo(mapView);
-              austinPopup.openPopup();
-              dallas.addTo(mapView);
-              dallasPopup.openPopup();
+              layers.filter(function(layer) {
+                return layer.isLarge;
+              }).forEach(function(layer) {
+                layer.layer.addTo(mapView);
+                layer.popup.openPopup();
+              });
+              
+              layers.filter(function(layer) {
+                return !layer.isLarge;
+              }).forEach(function(layer) {
+                layer.layer.removeFrom(mapView);
+              });
             } else {
-              hackTX.addTo(mapView);
-              hackTXPopup.openPopup();
-              utAustin.addTo(mapView);
-              utAustinPopup.openPopup();
-              zilker.addTo(mapView);
-              zilkerPopup.openPopup();
-
-              austin.removeFrom(mapView);
-              dallas.removeFrom(mapView);
+              layers.filter(function(layer) {
+                return layer.isLarge;
+              }).forEach(function(layer) {
+                layer.layer.removeFrom(mapView);
+              });
+              
+              layers.filter(function(layer) {
+                return !layer.isLarge;
+              }).forEach(function(layer) {
+                layer.layer.addTo(mapView);
+              });
             }
-          });
+          }
+
+          mapView.on('zoomend', onZoom);
+          onZoom(null);
         });
       } else {
         alert('GPS is not available on this device');

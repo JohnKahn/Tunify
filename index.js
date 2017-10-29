@@ -13,6 +13,7 @@ const request = require('request'); // "Request" library
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 const Playlist = require('./playlist');
 
@@ -96,10 +97,13 @@ app.get('/app', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          res.render('app', {
-            access_token: access_token,
-            refresh_token: refresh_token,
-            user_id: body.id,
+          Playlist.find().then(docs => {
+            res.render('app', {
+              access_token: access_token,
+              refresh_token: refresh_token,
+              user_id: body.id,
+              playlists: docs,
+            });
           });
         });
       } else {
@@ -115,7 +119,6 @@ app.get('/app', function(req, res) {
 });
 
 app.post('/playlist', function(req, res) {
-  console.log(req.body);
   let {
     name,
     description,
@@ -147,6 +150,8 @@ app.post('/playlist', function(req, res) {
         radius: 200,
         latitude,
         longitude,
+        isPoly: false,
+        isLarge: false,
         spotifyId: body.id,
         userId: user_id,
       }).then(() => {
