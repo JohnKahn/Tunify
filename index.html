@@ -5,12 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#25cf5f">
   <title>Tunify</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
     crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
     crossorigin=""></script>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400" rel="stylesheet">
 
   <style>
     html,
@@ -22,10 +24,31 @@
     #mapid {
       height: 100vh;
     }
+
+    #newPlaylistButton {
+      position: fixed;
+      opacity: 0.9;
+      z-index: 9999;
+      width: calc(100vw - 30px);
+      max-width: 450px;
+      left: 50%;
+      bottom: 15px;
+      border-radius: 9999px;
+      transform: translateX(-50%);
+      line-height: 8vh;
+      text-align: center;
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      font-family: Raleway;
+      font-weight: 300;
+      background-color: #25cf5f;
+    }
   </style>
 </head>
 
 <body>
+  <a href="#" id="newPlaylistButton">Create a Playlist</a>
   <div id="mapid"></div>
 
   <script>
