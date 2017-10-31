@@ -30,7 +30,7 @@ html(lang="en")
           button#loginSpotifyButton.greenButton(type="submit") Create Playlist
         p#successMessage
         a(href="#" onclick="closeModal()") Close
-    a#newPlaylistButton.greenButton(href="#") Create a Playlist
+    a#newPlaylistButton.greenButton(href="#" style="display:none;") Create a Playlist
     div#mapid
 
     script.
@@ -76,19 +76,100 @@ html(lang="en")
       var mapView = L.map('mapid');
       var gLatitude, gLongitude;
 
+      L.tileLayer(
+        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+        {
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken:
+            'pk.eyJ1Ijoiam9obmthaG4iLCJhIjoiY2o5YnFheWl3MWlpZDMyb3lsaGxmY3YzcSJ9.x2KFy11JppXkU68Usur4UA',
+        }
+      ).addTo(mapView);
+
+       var playlists = !{JSON.stringify(playlists)};
+      var layers = [];
+
+      playlists.forEach(function(list) {
+        if (list.isPoly) {
+          var newLayer = {
+            layer: L.polygon(list.polygon, {
+              color: '#25cf5f',
+              fillColor: '#25cf5f',
+              fillOpacity: 0.5,
+              interactive: false,
+            }).addTo(mapView),
+            isLarge: list.isLarge,
+          };
+
+          newLayer.popup = newLayer.layer.bindPopup(L.popup({
+            closeOnClick: false,
+            autoClose: false,
+            closeButton: false,
+            autoPan: false,
+          }).setContent(
+            `<a target="_BLANK" href="https://open.spotify.com/user/${list.userId}/playlist/${list.spotifyId}"><img src="${list.imageUrl}" width="100" /></a>`
+          )).openPopup();
+
+          layers.push(newLayer);
+        } else {
+          layers.push({
+            layer: L.circle([list.latitude, list.longitude], {
+              color: '#25cf5f',
+              fillColor: '#25cf5f',
+              fillOpacity: 0.5,
+              radius: list.radius,
+              interactive: false,
+            }),
+            isLarge: list.isLarge,
+            maxZoom: list.isLarge ? 13 : 100,
+            minZoom: list.isLarge ? 12 : 0,
+          });
+        }
+      });
+
+      mapView.setView([30.279886818182, -97.752675636364], 13);
+
+      function onZoom(ev) {
+        if (mapView.getZoom() <= 12) {
+          layers.filter(function(layer) {
+            return layer.isLarge;
+          }).forEach(function(layer) {
+            layer.layer.addTo(mapView);
+            if (!!layer.popup) {
+              layer.popup.openPopup();
+            }
+          });
+          
+          layers.filter(function(layer) {
+            return !layer.isLarge;
+          }).forEach(function(layer) {
+            layer.layer.removeFrom(mapView);
+          });
+        } else {
+          layers.filter(function(layer) {
+            return layer.isLarge;
+          }).forEach(function(layer) {
+            layer.layer.removeFrom(mapView);
+          });
+          
+          layers.filter(function(layer) {
+            return !layer.isLarge;
+          }).forEach(function(layer) {
+            layer.layer.addTo(mapView);
+            if (!!layer.popup) {
+              layer.popup.openPopup();
+            }
+          });
+        }
+      }
+
+      mapView.on('zoomend', onZoom);
+      onZoom(null);
+
       if (navigator.geolocation) {
+        $('#newPlaylistButton').show();
         navigator.geolocation.getCurrentPosition(function(p) {
           mapView.setView([p.coords.latitude, p.coords.longitude], 17);
-
-          L.tileLayer(
-            'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-            {
-              maxZoom: 18,
-              id: 'mapbox.streets',
-              accessToken:
-                'pk.eyJ1Ijoiam9obmthaG4iLCJhIjoiY2o5YnFheWl3MWlpZDMyb3lsaGxmY3YzcSJ9.x2KFy11JppXkU68Usur4UA',
-            }
-          ).addTo(mapView);
 
           var locMarker = L.marker([p.coords.latitude, p.coords.longitude]).addTo(mapView);
 
@@ -100,86 +181,7 @@ html(lang="en")
             });
           }, 5000);
 
-          var playlists = !{JSON.stringify(playlists)};
-          var layers = [];
-
-          playlists.forEach(function(list) {
-            if (list.isPoly) {
-              var newLayer = {
-                layer: L.polygon(list.polygon, {
-                  color: '#25cf5f',
-                  fillColor: '#25cf5f',
-                  fillOpacity: 0.5,
-                  interactive: false,
-                }).addTo(mapView),
-                isLarge: list.isLarge,
-              };
-
-              newLayer.popup = newLayer.layer.bindPopup(L.popup({
-                closeOnClick: false,
-                autoClose: false,
-                closeButton: false,
-                autoPan: false,
-              }).setContent(
-                `<a target="_BLANK" href="https://open.spotify.com/user/${list.userId}/playlist/${list.spotifyId}"><img src="${list.imageUrl}" width="100" /></a>`
-              )).openPopup();
-
-              layers.push(newLayer);
-            } else {
-              layers.push({
-                layer: L.circle([list.latitude, list.longitude], {
-                  color: '#25cf5f',
-                  fillColor: '#25cf5f',
-                  fillOpacity: 0.5,
-                  radius: list.radius,
-                  interactive: false,
-                }),
-                isLarge: list.isLarge,
-                maxZoom: list.isLarge ? 13 : 100,
-                minZoom: list.isLarge ? 12 : 0,
-              });
-            }
-          });
-
           mapView.setView([p.coords.latitude, p.coords.longitude], 17);
-          mapView.setView([30.279886818182, -97.752675636364], 13);
-          
-          function onZoom(ev) {
-            if (mapView.getZoom() <= 12) {
-              layers.filter(function(layer) {
-                return layer.isLarge;
-              }).forEach(function(layer) {
-                layer.layer.addTo(mapView);
-                if (!!layer.popup) {
-                  layer.popup.openPopup();
-                }
-              });
-              
-              layers.filter(function(layer) {
-                return !layer.isLarge;
-              }).forEach(function(layer) {
-                layer.layer.removeFrom(mapView);
-              });
-            } else {
-              layers.filter(function(layer) {
-                return layer.isLarge;
-              }).forEach(function(layer) {
-                layer.layer.removeFrom(mapView);
-              });
-              
-              layers.filter(function(layer) {
-                return !layer.isLarge;
-              }).forEach(function(layer) {
-                layer.layer.addTo(mapView);
-                if (!!layer.popup) {
-                  layer.popup.openPopup();
-                }
-              });
-            }
-          }
-
-          mapView.on('zoomend', onZoom);
-          onZoom(null);
         });
       } else {
         alert('GPS is not available on this device');
