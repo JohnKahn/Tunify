@@ -101,14 +101,14 @@ html(lang="en")
             isLarge: list.isLarge,
           };
 
-          newLayer.popup = newLayer.layer.bindPopup(L.popup({
+          /*newLayer.popup = newLayer.layer.bindPopup(L.popup({
             closeOnClick: false,
             autoClose: false,
             closeButton: false,
             autoPan: false,
           }).setContent(
             `<a target="_BLANK" href="https://open.spotify.com/user/${list.userId}/playlist/${list.spotifyId}"><img src="${list.imageUrl}" width="100" /></a>`
-          )).openPopup();
+          )).openPopup();*/
 
           layers.push(newLayer);
         } else {
