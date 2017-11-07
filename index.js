@@ -275,6 +275,6 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 80;
 console.log('Listening on ' + port);
 app.listen(port);
