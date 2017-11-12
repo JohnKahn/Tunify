@@ -27,7 +27,7 @@ mongoose.Promise = global.Promise;
 
 const client_id = 'd4787ada2aae418e8719bb5d540c3194'; // Your client id
 const client_secret = '0f05ff110d9e41c281ce2ee71cb23f78'; // Your secret
-const redirect_uri = 'https://tunify.azurewebsites.net/callback'; // Your redirect uri
+const redirect_uri = 'https://tunify.xyz/callback'; // Your redirect uri
 // const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
 /**
